@@ -1,12 +1,14 @@
 import React, { useState, useRef, useEffect } from "react";
 import { chatWithTutor } from "../services/geminiService";
 import { Message } from "../types";
+import { useLanguage } from "../LanguageContext";
 
 const AITutor: React.FC = () => {
+  const { t } = useLanguage();
   const [messages, setMessages] = useState<Message[]>([
     {
       role: "model",
-      text: "Hello! I'm your C Programming Tutor. Ask me anything about pointers, arrays, or memory management!",
+      text: t.tutor.greeting,
     },
   ]);
   const [input, setInput] = useState("");
@@ -20,6 +22,15 @@ const AITutor: React.FC = () => {
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
+
+  useEffect(() => {
+    setMessages([
+      {
+        role: "model",
+        text: t.tutor.greeting,
+      },
+    ]);
+  }, [t.tutor.greeting]);
 
   const handleSend = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -46,7 +57,7 @@ const AITutor: React.FC = () => {
       <div className="p-6 border-b border-slate-700 bg-slate-800 rounded-t-2xl">
         <h2 className="text-2xl font-bold text-white flex items-center">
           <span className="bg-indigo-500 w-2 h-8 mr-4 rounded-full"></span>
-          AI Tutor Chat
+          {t.tutor.title}
         </h2>
       </div>
 
@@ -111,7 +122,7 @@ const AITutor: React.FC = () => {
             type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            placeholder="Ask about pointers..."
+            placeholder={t.tutor.placeholder}
             className="flex-1 bg-slate-900 border border-slate-600 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-primary transition-colors"
           />
           <button
@@ -119,7 +130,7 @@ const AITutor: React.FC = () => {
             disabled={isLoading || !input.trim()}
             className="bg-primary hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed text-white px-6 py-3 rounded-lg font-medium transition-colors"
           >
-            Send
+            {t.tutor.send}
           </button>
         </form>
       </div>

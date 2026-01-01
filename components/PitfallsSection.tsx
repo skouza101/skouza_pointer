@@ -1,11 +1,13 @@
 import React from "react";
+import { useLanguage } from "../LanguageContext";
 
 const PitfallsSection: React.FC = () => {
+  const { t } = useLanguage();
+
   const pitfalls = [
     {
-      title: "Uninitialized Pointers",
-      description:
-        "Declaring a pointer without assigning it a valid address causes it to point to garbage memory.",
+      title: t.pitfalls.uninitializedTitle,
+      description: t.pitfalls.uninitializedDesc,
       code: `int *ptr; 
 *ptr = 10;`,
       fix: `int x;
@@ -13,24 +15,21 @@ int *ptr = &x;
 *ptr = 10;`,
     },
     {
-      title: "Dangling Pointers",
-      description:
-        "A pointer that references memory that has been freed or is out of scope.",
+      title: t.pitfalls.danglingTitle,
+      description: t.pitfalls.danglingDesc,
       code: `int *ptr;
 {
   int x = 5;
   ptr = &x;
 } 
 printf("%d", *ptr);`,
-      fix: "Always ensure the variable outlives the pointer.",
+      fix: t.pitfalls.danglingFix,
     },
     {
-      title: "Memory Leaks",
-      description:
-        "Allocating memory with malloc() but forgetting to free() it.",
+      title: t.pitfalls.memoryLeakTitle,
+      description: t.pitfalls.memoryLeakDesc,
       code: `void loop() {
    int *ptr = malloc(sizeof(int));
-   // ... do stuff
 }`,
       fix: `free(ptr);`,
     },
@@ -40,7 +39,7 @@ printf("%d", *ptr);`,
     <div className="bg-slate-800 p-8 rounded-2xl border border-slate-700 shadow-xl">
       <h2 className="text-3xl font-bold text-white mb-8 flex items-center">
         <span className="bg-red-500 w-2 h-8 mr-4 rounded-full"></span>
-        Common Pitfalls
+        {t.pitfalls.title}
       </h2>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

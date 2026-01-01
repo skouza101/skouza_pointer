@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { Variable } from "../types";
+import { useLanguage } from "../LanguageContext";
 
 const INITIAL_CODE = `int a = 10;
 int b = 25;
@@ -38,6 +39,7 @@ const SimulatorSection: React.FC = () => {
       activePointers: [],
     },
   ]);
+  const { t } = useLanguage();
 
   const lines = code.split("\n");
 
@@ -302,8 +304,8 @@ const SimulatorSection: React.FC = () => {
       : { variables: [], log: "", highlightedLine: -1, activePointers: [] };
 
   const getItemCenter = (index: number) => {
-    const width = 128; // w-32
-    const gap = 24; // gap-6
+    const width = 128;
+    const gap = 24;
     return index * (width + gap) + width / 2;
   };
 
@@ -311,7 +313,9 @@ const SimulatorSection: React.FC = () => {
     <div className="bg-slate-800 rounded-2xl border border-slate-700 shadow-xl overflow-hidden flex flex-col md:flex-row h-auto min-h-[600px]">
       <div className="w-full md:w-1/3 bg-[#1e1e1e] border-r border-slate-700 flex flex-col font-mono text-sm">
         <div className="flex items-center justify-between p-4 border-b border-slate-700 bg-slate-900/50">
-          <span className="text-slate-400 font-bold">main.c</span>
+          <span className="text-slate-400 font-bold">
+            {t.simulator.fileName}
+          </span>
           <div className="flex space-x-2">
             {isEditing ? (
               <button
@@ -330,7 +334,7 @@ const SimulatorSection: React.FC = () => {
                     clipRule="evenodd"
                   />
                 </svg>
-                Run Code
+                {t.simulator.runCode}
               </button>
             ) : (
               <>
@@ -338,14 +342,14 @@ const SimulatorSection: React.FC = () => {
                   onClick={stopEditing}
                   className="px-3 py-1 text-xs font-medium text-slate-300 bg-slate-700 rounded hover:bg-slate-600 transition-colors"
                 >
-                  Edit Code
+                  {t.simulator.editCode}
                 </button>
                 <button
                   onClick={handleNext}
                   disabled={step >= lines.length || isRunning}
                   className="px-3 py-1 text-xs font-medium text-white bg-primary hover:bg-blue-600 rounded transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  Next Step
+                  {t.simulator.nextStep}
                 </button>
                 {!isRunning && step < lines.length && (
                   <button
@@ -379,7 +383,7 @@ const SimulatorSection: React.FC = () => {
               value={code}
               onChange={(e) => setCode(e.target.value)}
               spellCheck={false}
-              placeholder="// Type your C code here..."
+              placeholder={t.simulator.placeholder}
             />
           ) : (
             <div className="p-4 space-y-1">
@@ -418,7 +422,7 @@ const SimulatorSection: React.FC = () => {
               ))}
               {step >= lines.length && (
                 <div className="mt-4 text-green-500 font-bold px-8 text-xs">
-                  -- End of Program --
+                  {t.simulator.endOfProgram}
                 </div>
               )}
             </div>
@@ -427,10 +431,10 @@ const SimulatorSection: React.FC = () => {
 
         <div className="h-32 bg-black border-t border-slate-700 p-3 font-mono text-xs overflow-y-auto">
           <div className="flex justify-between text-slate-500 mb-1">
-            <span>Terminal Output:</span>
+            <span>{t.simulator.terminalOutput}</span>
             {!isEditing && (
               <span className="text-[10px]">
-                Step {step} / {lines.length}
+                {t.simulator.step} {step} / {lines.length}
               </span>
             )}
           </div>
@@ -449,16 +453,16 @@ const SimulatorSection: React.FC = () => {
       <div className="w-full md:w-2/3 bg-slate-900 p-8 flex flex-col">
         <div className="flex justify-between items-center mb-10">
           <h3 className="text-slate-300 font-bold text-lg">
-            RAM (Stack Memory)
+            {t.simulator.ramTitle}
           </h3>
           <div className="flex gap-4 text-xs font-medium">
             <div className="flex items-center">
               <div className="w-3 h-3 border-2 border-cyan-500 rounded mr-2"></div>
-              Integer
+              {t.simulator.integer}
             </div>
             <div className="flex items-center">
               <div className="w-3 h-3 border-2 border-purple-500 rounded mr-2"></div>
-              Pointer
+              {t.simulator.pointer}
             </div>
           </div>
         </div>
@@ -551,10 +555,10 @@ const SimulatorSection: React.FC = () => {
               {currentState.variables.length === 0 && (
                 <div className="w-full h-32 flex flex-col items-center justify-center border-2 border-dashed border-slate-700 rounded-xl">
                   <span className="text-slate-500 font-medium">
-                    Memory Empty
+                    {t.simulator.memoryEmpty}
                   </span>
                   <span className="text-slate-600 text-xs mt-1">
-                    Run code to allocate memory
+                    {t.simulator.runToAllocate}
                   </span>
                 </div>
               )}

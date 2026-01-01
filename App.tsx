@@ -6,11 +6,13 @@ import SimulatorSection from "./components/SimulatorSection";
 import PitfallsSection from "./components/PitfallsSection";
 import AITutor from "./components/AITutor";
 import { Section } from "./types";
+import { LanguageProvider, useLanguage } from "./LanguageContext";
 
-const App: React.FC = () => {
+const AppContent: React.FC = () => {
   const [activeSection, setActiveSection] = useState<Section>(
     Section.DEFINITION
   );
+  const { t } = useLanguage();
 
   const scrollToSection = (section: Section) => {
     setActiveSection(section);
@@ -27,24 +29,23 @@ const App: React.FC = () => {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 space-y-24">
         <div className="text-center py-20">
           <h1 className="text-5xl md:text-7xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500 mb-6">
-            Master C Pointers
+            {t.hero.title}
           </h1>
           <p className="text-xl text-slate-400 max-w-2xl mx-auto">
-            Demystifying the most feared concept in C programming through
-            interactive visualization and AI-powered tutoring.
+            {t.hero.subtitle}
           </p>
           <div className="mt-10 flex justify-center gap-4">
             <button
               onClick={() => scrollToSection(Section.SIMULATOR)}
               className="bg-primary hover:bg-blue-600 text-white px-8 py-3 rounded-full font-bold transition-all shadow-lg shadow-blue-500/20"
             >
-              Try Simulator
+              {t.hero.trySimulator}
             </button>
             <button
               onClick={() => scrollToSection(Section.ANALOGY)}
               className="bg-slate-700 hover:bg-slate-600 text-white px-8 py-3 rounded-full font-bold transition-all"
             >
-              Start Learning
+              {t.hero.startLearning}
             </button>
           </div>
         </div>
@@ -71,9 +72,17 @@ const App: React.FC = () => {
       </main>
 
       <footer className="mt-32 border-t border-slate-800 py-12 text-center text-slate-500">
-        <p>© 2026 SKOUZA PointerMaster C. Built by SKOUZA.</p>
+        <p>{t.footer.copyright}</p>
       </footer>
     </div>
+  );
+};
+
+const App: React.FC = () => {
+  return (
+    <LanguageProvider>
+      <AppContent />
+    </LanguageProvider>
   );
 };
 

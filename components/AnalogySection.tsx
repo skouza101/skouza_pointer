@@ -1,20 +1,20 @@
 import React, { useState } from "react";
+import { useLanguage } from "../LanguageContext";
 
 const AnalogySection: React.FC = () => {
   const [highlight, setHighlight] = useState<
     "house" | "address" | "mailbox" | null
   >(null);
+  const { t } = useLanguage();
 
   return (
     <div className="bg-slate-800 p-8 rounded-2xl border border-slate-700 shadow-xl">
       <h2 className="text-3xl font-bold text-white mb-6 flex items-center">
         <span className="bg-purple-600 w-2 h-8 mr-4 rounded-full"></span>
-        The Mailbox Analogy
+        {t.analogy.title}
       </h2>
 
-      <p className="text-slate-300 mb-8">
-        Think of computer memory as a giant street with infinitely many houses.
-      </p>
+      <p className="text-slate-300 mb-8">{t.analogy.intro}</p>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
         <div className="relative bg-slate-900 rounded-xl p-8 border border-slate-700 flex justify-center items-center min-h-[300px]">
@@ -181,12 +181,10 @@ const AnalogySection: React.FC = () => {
             onMouseEnter={() => setHighlight("house")}
             onMouseLeave={() => setHighlight(null)}
           >
-            <h3 className="font-bold text-white mb-1">The House (Variable)</h3>
-            <p className="text-sm text-slate-400">
-              This represents a variable{" "}
-              <code className="text-primary">int x = 10;</code>. It exists in
-              the physical world and contains contents (the value 10).
-            </p>
+            <h3 className="font-bold text-white mb-1">
+              {t.analogy.houseTitle}
+            </h3>
+            <p className="text-sm text-slate-400">{t.analogy.houseDesc}</p>
           </div>
 
           <div
@@ -198,12 +196,10 @@ const AnalogySection: React.FC = () => {
             onMouseEnter={() => setHighlight("address")}
             onMouseLeave={() => setHighlight(null)}
           >
-            <h3 className="font-bold text-white mb-1">The Address Plate</h3>
-            <p className="text-sm text-slate-400">
-              Every house has a unique location. In C, we get this using{" "}
-              <code className="text-accent">&x</code>. It's fixed and tells us
-              where the variable lives.
-            </p>
+            <h3 className="font-bold text-white mb-1">
+              {t.analogy.addressTitle}
+            </h3>
+            <p className="text-sm text-slate-400">{t.analogy.addressDesc}</p>
           </div>
 
           <div
@@ -215,12 +211,8 @@ const AnalogySection: React.FC = () => {
             onMouseEnter={() => setHighlight("mailbox")}
             onMouseLeave={() => setHighlight(null)}
           >
-            <h3 className="font-bold text-white mb-1">The Note (Pointer)</h3>
-            <p className="text-sm text-slate-400">
-              A pointer <code className="text-red-400">int *ptr</code> is just a
-              piece of paper (another variable) that holds the <em>address</em>{" "}
-              written on it. It doesn't hold the house, just directions to it.
-            </p>
+            <h3 className="font-bold text-white mb-1">{t.analogy.noteTitle}</h3>
+            <p className="text-sm text-slate-400">{t.analogy.noteDesc}</p>
           </div>
         </div>
       </div>
