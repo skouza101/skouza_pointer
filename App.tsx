@@ -71,7 +71,7 @@ const App: React.FC = () => {
       </main>
 
       <footer className="mt-32 border-t border-slate-800 py-12 text-center text-slate-500">
-        <p>© 2024 PointerMaster C. Built with React & Gemini.</p>
+        <p>© 2026 SKOUZA PointerMaster C. Built by SKOUZA.</p>
       </footer>
     </div>
   );
